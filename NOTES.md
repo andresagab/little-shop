@@ -24,3 +24,28 @@
 - To log in use email
 - To log in the user must be active
 - Automatic redirect by type of user
+
+## PRODUCTS
+
+> Attributes:
+> - name
+> - description
+> - price
+> - amount
+> - image_path
+> - category_id
+
+## CARTS
+
+> **Attributes**:
+> - user_id
+> - status
+>   - **UN** => `Unconfirmed`
+>   - **CN** => `Confirmed`
+>   - **PA** => `Paid`
+>   - **CA** => `Cancelled`
+>   - **CP** => `Completed` 
+
+> **Rules**:
+>   - A one cart can have many items
+>   - A one user just can have a one active cart
