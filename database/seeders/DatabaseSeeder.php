@@ -20,6 +20,13 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'is_admin' => 0,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Root',
+            'email' => 'root@example.com',
+            'is_admin' => 1,
         ]);
 
         Category::factory(10)->create();

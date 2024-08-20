@@ -3,11 +3,17 @@
 namespace App\Providers;
 
 use App\Actions\Jetstream\DeleteUser;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\ValidationException;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 
@@ -52,6 +58,17 @@ class JetstreamServiceProvider extends ServiceProvider
             else
                 throw ValidationException::withMessages([Fortify::username() => ['Invalid user.']]);
 
+        });
+
+        # custom authentication pipeline
+        Fortify::authenticateThrough(function (Request $request) {
+            return array_filter([
+                config()->get('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
+                RedirectIfTwoFactorAuthenticatable::class,
+                AttemptToAuthenticate::class,
+                PrepareAuthenticatedSession::class,
+                RedirectIfAuthenticated::class,
+            ]);
         });
 
     }

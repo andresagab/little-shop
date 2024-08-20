@@ -13,12 +13,40 @@ Route::get('/', function () {
     ]);
 });
 
+/**
+ * ADMIN ROUTES
+ */
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    'is_admin',
+])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+    Route::get('/dashboard', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('dashboard');
+
+});
+
+/**
+ * COMMON ROUTES
+ */
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::get('/access-denied', function () {
+        return Inertia::render('Auth/AccessDenied');
+    })->name('access-denied');
+
 });
