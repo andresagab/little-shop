@@ -35,6 +35,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'is_admin',
         'password',
         'remember_token',
         'two_factor_recovery_codes',
@@ -62,4 +63,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /// PRIVATE FUNCTIONS
+
+    /// PUBLIC FUNCTIONS
+
+    
+
+    /// STATIC FUNCTIONS
+
 }

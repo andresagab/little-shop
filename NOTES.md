@@ -21,6 +21,6 @@
 - is_active
 
 > Rules:
-- To loggin use email
+- To log in use email
 - To log in the user must be active
 - Automatic redirect by type of user
